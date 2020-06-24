@@ -1,112 +1,114 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { StyleSheet, View, TextInput, Text, Button, Image } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Button, Image, TouchableHighlight } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import {ScrollView} from "react-native-web";
 
 const Stack  = createStackNavigator()
 const Tab = createBottomTabNavigator()
-const Drawer = createDrawerNavigator()
 
-const S1 = ({navigation}) => {
+const And = () => {
     return (
-        <View style={styles.container} >
-        <TextInput style={styles.input}/>
-        <Button title="FORWARD" onPress={() => {
-            return navigation.push('S2')
-        }}/>
-      </View>
+        <Stack.Navigator>
+            <Stack.Screen
+                name="!"
+                component={Chk}
+                options={{title: '!'}}
+            />
+            <Stack.Screen
+                name="@"
+                component={At}
+                options={{title: '@'}}
+            />
+        </Stack.Navigator>
     )
 }
 
-const S2 = ({navigation}) => {
-
+const Chk = ({navigation}) => {
     return (
-            <Tab.Navigator>
-                <Tab.Screen name="S3" component={S3} />
-                <Tab.Screen name="S4" component={S4} navigation={navigation}/>
-            </Tab.Navigator>
-
-    )
-}
-
-const S3 = () => {
-    return (
-        <View style={styles.container} >
-            <Text>S3</Text>
-            <Image style={styles.stretch} source={{uri: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RandomBitmap.png"}} />
+        <View style={{...styles.container, backgroundColor: '#eeeedd'}}>
+            <Image style={{width: '75%', height: 300}} source={{uri: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RandomBitmap.png"}} />
+            <TouchableHighlight underlayColor="white" opacity={5} >
+                <View style={{backgroundColor: '#cfe3e3', borderRadius: 10}}>
+                <Text
+                    style={
+                        { paddingTop: 5
+                        , paddingRight: 9
+                        , paddingBottom: 5
+                        , paddingLeft: 9
+                        , borderWidth: 5
+                        , borderRadius: 10
+                        , borderColor:'tomato'
+                        , fontSize: 30
+                        , letterSpacing: 3
+                        , color: 'tomato'
+                        }
+                    }
+                    onPress={() => navigation.push('@')}
+                >
+                    NEXT
+                </Text>
+                </View>
+            </TouchableHighlight>
         </View>
     )
 }
 
-const S4 = ({navigation}) => {
+const At = ({navigation}) => {
     return (
-        <View style={styles.container} >
-            <Text>S4</Text>
-            <Button onPress={() => navigation.navigate('S5')} title="asdf" />
+        <View style={{...styles.container, backgroundColor: '#eeccaa'}} >
+            <Text style={styles.text}>{'@@@'}</Text>
+            <TextInput style={styles.input}/>
+            <TouchableHighlight underlayColor="white" opacity={5} >
+                <View style={{backgroundColor: '#c3e1bc', borderRadius: 10}}>
+                    <Text
+                        style={
+                            { paddingTop: 5
+                                , paddingRight: 9
+                                , paddingBottom: 5
+                                , paddingLeft: 9
+                                , borderWidth: 5
+                                , borderRadius: 10
+                                , borderColor:'#243d60'
+                                , fontSize: 30
+                                , letterSpacing: 3
+                                , color: '#243d60'
+                            }
+                        }
+                        onPress={() => navigation.push('!')}
+                    >
+                        NEXT
+                    </Text>
+                </View>
+            </TouchableHighlight>
         </View>
     )
 }
 
-const S5 = () => {
+const Hash = () => {
     return (
-<>
-        <Drawer.Navigator>
-            <Drawer.Screen name="S6" component={S6} />
-            <Drawer.Screen name="S7" component={S7} />
-        </Drawer.Navigator>
-    </>
-    )
-}
-
-const S6 = () => {
-    return (
-        <View style={styles.container} >
-            <Text>S6</Text>
+        <View style={{...styles.container, backgroundColor: '#c9e2ac'}}>
+            <Text style={styles.text}>###</Text>
         </View>
     )
 }
 
-const S7 = () => {
-    return (
-        <View style={styles.container} >
-            <Text>S6</Text>
-        </View>
-    )
-}
 
 export default function App() {
 
   return (
       <NavigationContainer>
-          <Stack.Navigator>
-              <Stack.Screen
-                  name="S1"
-                  component={S1}
-                  options={{title: 'Yr on S1'}}
-                  n={0}
-              />
-              <Stack.Screen
-                  name="S2"
-                  component={S2}
-                  options={{title: 'Yr on S2'}}
-              />
-              <Stack.Screen
-                  name="S5"
-                  component={S5}
-                  options={{title: 'Yr on S5'}}
-              />
-          </Stack.Navigator>
-          </NavigationContainer>
+          <Tab.Navigator tabBarOptions={{activeTintColor: 'tomato', labelStyle: {fontSize : 30}}} >
+              <Tab.Screen name="&" component={And} />
+              <Tab.Screen name="#" component={Hash} />
+          </Tab.Navigator>
+      </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#cdffaa',
       flex: 1,
       justifyContent: 'space-evenly',
       alignItems: 'center'
@@ -118,9 +120,7 @@ const styles = StyleSheet.create({
         , height: 50
         , padding: 7
     },
-    stretch: {
-        width: 300,
-        height: 300,
-        resizeMode: 'stretch',
-    },
+    text: {
+        fontSize: 80
+    }
 });
